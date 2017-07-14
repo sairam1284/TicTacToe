@@ -1,0 +1,103 @@
+<html>
+  <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <style>
+      .board {
+        display: flex;
+        width: 300px;
+        height: 300px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+      .square {
+        height: 100px;
+        width: 100px;
+        box-sizing: border-box;
+        border: 3px solid black;
+        display: flex;
+        font-size: 4em;
+        justify-content: center;
+        align-items: center;
+      }
+      .square:hover {
+        cursor: pointer;
+        background-color: lightgreen;
+      }
+      .reset {
+        padding: 1em;
+        margin: 1em;
+        font-size: large;
+      }
+      .reset:hover {
+        background: linear-gradient(blue, white);
+      }
+
+      #message{
+        padding: 1em;
+      }
+
+      .container{
+        padding: 2em;
+      }
+    </style>
+
+  </head>
+  <body class="container">
+
+    <h1> Tic Tac Toe </h1>
+    <div class = "result" ></div>
+    <div class="board">
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+    </div>
+
+    <button type="submit" class="reset">Reset Game</button>
+    <script>
+      var PLAYER_ONE_SYMBOL = "X"
+      var PLAYER_TWO_SYMBOL = "O"
+      var currentTurn = PLAYER_ONE_SYMBOL
+
+      var board = document.querySelector('.board')
+      board.addEventListener('click', function(e) {
+        if (e.target.innerHTML == ""){
+          e.target.innerHTML = currentTurn;
+        }
+        if (checkForWinner()){
+          var winningmsg = "Player "+ currentTurn + " Won The Game!!!";
+          document.querySelector("div.result").id = "message";
+          document.getElementById("message").innerHTML = winningmsg;
+        }
+        currentTurn = currentTurn === PLAYER_ONE_SYMBOL ? PLAYER_TWO_SYMBOL : PLAYER_ONE_SYMBOL
+      })
+
+      $(".reset").click(function(){
+        $(".square").empty()
+        $("#message").empty();
+      })
+
+      function checkForWinner() {
+        var squares = Array.prototype.slice.call(document.querySelectorAll('.square'), 0);
+        var symbols = squares.map(function(square) {
+          return square.innerHTML;
+        })
+        console.log(symbols);
+        var winningCombos = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
+        return winningCombos.find(function(combo) {
+          if(symbols[combo[0]] == symbols[combo[1]] && symbols[combo[1]] == symbols[combo[2]]){
+            return symbols[combo[0]]
+          }else {
+            return false
+          }
+        })
+      }
+    </script>
+  </body>
+
+</html>
